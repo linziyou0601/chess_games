@@ -138,9 +138,11 @@ export default {
       else this.showLoadingDialog()
     }
   },
+  created() {
+    this.showLoadingDialog()
+  },
   mounted() {
     // 連線至Socket
-    this.showLoadingDialog()
     this.socket = this.$nuxtSocket({
       name: 'main',
       reconnection: false,
