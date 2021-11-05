@@ -14,10 +14,10 @@
         </div>
         <h4 class="mt-2 mb-3 fw-900">登入</h4>
         <div class="mt-2 mb-3 mx-4">
-          <b-input v-model="inputName" placeholder="帳號" />
+          <b-input type="username" name="username" v-model="inputName" placeholder="帳號" />
         </div>
         <div class="mt-2 mb-3 mx-4">
-          <b-input v-model="inputPassword" placeholder="密碼" />
+          <b-input type="password" name="password" v-model="inputPassword" placeholder="密碼" />
         </div>
         <b-button variant="dark" class="mt-3" @click="ok()">註冊或登入</b-button>
         </b-col>

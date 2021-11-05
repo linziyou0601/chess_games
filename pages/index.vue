@@ -20,7 +20,7 @@
                   <div>敗：{{ currentUser.lose }}</div>
                   <div>平：{{ currentUser.tie }}</div>
                 </div>
-                <div v-if="socketId!=='未連線'" class="mt-3">
+                <div v-if="!currentUser && socketId!=='未連線'" class="mt-3">
                   <div>帳號：訪客&emsp;&emsp;<b-button class="login-btn" @click="signIn">登入</b-button></div>
                 </div>
               </div>
