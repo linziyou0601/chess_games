@@ -139,14 +139,14 @@ export default function (socket, io) {
     // 紀錄 勝/平 方
     if (winnerSocketId in userNameMap) {
       axios.post(
-        `${process.env._AXIOS_BASE_URL_}api/updateGameResult`, 
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/updateGameResult`, 
         { name: userNameMap[winnerSocketId], win: tie? 0: 1, lose: 0, tie: tie? 1: 0 }
       ).then((res)=> console.log(res.data))
     }
     // 紀錄 敗/平 方
     if (loserSocketId in userNameMap) {
       axios.post(
-        `${process.env._AXIOS_BASE_URL_}api/updateGameResult`, 
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/updateGameResult`, 
         { name: userNameMap[loserSocketId], win: 0, lose: tie? 0: 1, tie: tie? 1: 0 }
       ).then((res)=> console.log(res.data))
     }
