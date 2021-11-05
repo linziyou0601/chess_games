@@ -132,8 +132,15 @@ export default {
   computed: {
     ...mapGetters(['users', 'userNameMap', 'recvMsg']),
   },
+  watch: {
+    socketId(newValue, oldValue) {
+      if (newValue!=='未連線') this.hideLoadingDialog()
+      else this.showLoadingDialog()
+    }
+  },
   mounted() {
     // 連線至Socket
+    this.showLoadingDialog()
     this.socket = this.$nuxtSocket({
       name: 'main',
       reconnection: false,
