@@ -23,8 +23,21 @@
 
             <b-col cols="12" class="mb-4">
               <table class="mx-auto">
-                <tr v-for="(row, i) in gameRoomData.board" :key="i">
-                  <td v-for="(cell, j) in gameRoomData.board[i]" :key="j" @click="putChess(i,j)">
+                <tr>
+                  <td v-for="hIndex in ['', '1', '2', '3', '4', '5', '6', '7', '8']" :key="hIndex" class="board_index">
+                    {{ hIndex }}
+                  </td>
+                </tr>
+                <tr v-for="(row, i) in gameRoomData.board" :key="i" class='board_row'>
+                  <td class="px-1 board_index">
+                    {{ ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'][i] }}
+                  </td>
+                  <td 
+                    v-for="(cell, j) in gameRoomData.board[i]" 
+                    :key="j" 
+                    :class="{prev_chess: i===gameRoomData.prevI && j===gameRoomData.prevJ, cell: true}" 
+                    @click="putChess(i,j)"
+                  >
                     <b-img v-if="cell!==0" :src="`${cell===1? 'black': 'white'}_chess.png`" fluid/>
                     <b-img v-else-if="gameRoomData.available[i][j]===1 && isMyTurn" src="available_chess.png" fluid/>
                   </td>
@@ -61,8 +74,9 @@
 
             <b-col cols="12" class="mb-4">
               <div class="panel p-3">
-                <div>狀態：{{ gameRoomData.status }}</div>
-                <div v-if="gameRoomData.turn===-1">贏家：{{ winner }}</div>
+                <div>狀&emsp;態：{{ gameRoomData.status }}</div>
+                <div v-if="gameRoomData.prevI!==-1 && gameRoomData.prevJ!==-1">上一子：{{ prevChessInfo }}</div>
+                <div v-if="gameRoomData.turn===-1">贏&emsp;家：{{ winner }}</div>
               </div>
             </b-col>
           </b-row>
@@ -111,6 +125,11 @@ export default {
       else if (this.gameRoomData.winner === 0) return '平手'
       else if (this.gameRoomData.winner === 1) return '黑棋'
       else return '白棋'
+    },
+    prevChessInfo() {
+      const hIndex =  ['1', '2', '3', '4', '5', '6', '7', '8'];
+      const vIndex = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+      return `${vIndex[this.gameRoomData.prevI]}${hIndex[this.gameRoomData.prevJ]}`
     }
   },
   methods: {
@@ -171,14 +190,20 @@ table {
   background: #948a7b; /*#579c89;*/
   width: auto;
 }
-tr {
+tr.board_row {
   height: 50px;
 }
-td {
+td.cell {
   width: 50px;
   border-radius: 5px;
   color: #FFF;
   padding: 2px;
   background: #d6ccbd; /*#62b39d;*/
+}
+td.cell.prev_chess {
+  background: #e4c685; /*#62b39d;*/
+}
+.board_index {
+  color: #d6ccbd;
 }
 </style>

@@ -205,6 +205,8 @@ export default function (socket, io) {
           board,
           blackTotal: 2,
           whiteTotal: 2,
+          prevI: -1,
+          prevJ: -1,
           turn: 1,
           winner: -1,
           available: getAvailables(board, 1)
@@ -251,6 +253,8 @@ export default function (socket, io) {
         const gameRoomParams = Object.assign(gameRoom, {
           status: gameEnd? '比賽結束': '比賽中',
           board: nextBoard,
+          prevI: data.i,
+          prevJ: data.j,
           blackTotal,
           whiteTotal,
           turn: nextTurn,
