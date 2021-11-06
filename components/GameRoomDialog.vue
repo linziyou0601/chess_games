@@ -21,25 +21,22 @@
               </h5>
             </b-col>
 
-            <b-col cols="12" class="mb-4">
+            <b-col cols="12" class="mb-4 px-0 px-sm-3">
               <table class="mx-auto">
                 <tr>
-                  <td v-for="hIndex in ['', '1', '2', '3', '4', '5', '6', '7', '8']" :key="hIndex" class="board_index">
-                    {{ hIndex }}
-                  </td>
+                  <td v-for="hIndex in ['', '1', '2', '3', '4', '5', '6', '7', '8']" :key="hIndex" class="board_index">{{ hIndex }}</td>
                 </tr>
                 <tr v-for="(row, i) in gameRoomData.board" :key="i" class='board_row'>
-                  <td class="px-1 board_index">
-                    {{ ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'][i] }}
-                  </td>
+                  <td class="p-0 p-sm-1 board_index">{{ ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'][i] }}</td>
                   <td 
                     v-for="(cell, j) in gameRoomData.board[i]" 
                     :key="j" 
-                    :class="{prev_chess: i===gameRoomData.prevI && j===gameRoomData.prevJ, cell: true}" 
+                    :class="{prev_chess: i===gameRoomData.prevI && j===gameRoomData.prevJ, cell: true, 'p-0': true, 'p-sm-1': true}" 
                     @click="putChess(i,j)"
                   >
                     <b-img v-if="cell!==0" :src="`${cell===1? 'black': 'white'}_chess.png`" fluid/>
                     <b-img v-else-if="gameRoomData.available[i][j]===1 && isMyTurn" src="available_chess.png" fluid/>
+                    <b-img v-else src="empty_chess.png" fluid/>
                   </td>
                 </tr>
               </table>
@@ -56,9 +53,9 @@
             <b-col cols="12" class="mb-4">
               <b-row>
                 <b-col 
-                  cols="6"
                   v-for="(key, ind) in ['black', 'white']"
                   :key="ind"
+                  cols="6"
                 >
                   <div :class="{ panel: true, 'p-3': true, itsTurn: gameRoomData.turn===(ind+1) }">
                     <h5 :class="{ self_socket_id: gameRoomData[key]===$parent.socketId, 'text-truncate': true, 'subTitle': true }">
@@ -105,6 +102,17 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 export default {
+  watch: {
+    show(newValue, oldValue) {
+      if (newValue===true) {
+        const audio = new Audio('startGame.wav')
+        const startPlayPromise = audio.play()
+        if (startPlayPromise !== undefined) {
+          startPlayPromise.catch(error => { console.log(error.name) })
+        }
+      }
+    }
+  },
   computed: {
     ...mapGetters(['userNameMap', 'gameRoomDialogShow', 'gameRoomData']),
     show: {
@@ -187,23 +195,23 @@ table {
   border-collapse: separate;
   border-spacing: 5px;
   border-radius: 10px;
-  background: #948a7b; /*#579c89;*/
+  background: #948a7b;
   width: auto;
 }
-tr.board_row {
-  height: 50px;
-}
 td.cell {
-  width: 50px;
   border-radius: 5px;
   color: #FFF;
-  padding: 2px;
-  background: #d6ccbd; /*#62b39d;*/
+  background: #d6ccbd;
 }
 td.cell.prev_chess {
-  background: #e4c685; /*#62b39d;*/
+  background: #e4c685;
 }
 .board_index {
   color: #d6ccbd;
+}
+@media (max-width: 480px) { 
+  .board_index {
+    font-size: 5pt;
+  }
 }
 </style>

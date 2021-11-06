@@ -27,6 +27,17 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 export default {
+  watch: {
+    show(newValue, oldValue) {
+      if (newValue===true) {
+        const audio = new Audio('invitedSound.mp3')
+        const startPlayPromise = audio.play()
+        if (startPlayPromise !== undefined) {
+          startPlayPromise.catch(error => { console.log(error.name) })
+        }
+      }
+    }
+  },
   computed: {
     ...mapGetters(['userNameMap', 'inviteDialog']),
     show: {

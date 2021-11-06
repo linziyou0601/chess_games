@@ -189,7 +189,9 @@ export default {
     },
     // 下棋
     putChess(params) {
-      this.socket.emit('putChess', params)
+      this.socket.emit('putChess', params, (resp) => { 
+        if (resp.status) new Audio('putChess.wav').play()
+      })
     },
     // 離開房間
     leaveRoom(params) {

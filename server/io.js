@@ -276,7 +276,9 @@ export default function (socket, io) {
             recordGameResult(gameRoom.black, gameRoom.white, true)
           }
         }
+        return { status: true }
       }
+      return { status: false }
     },
     // 離開房間
     leaveRoom(roomId) {
