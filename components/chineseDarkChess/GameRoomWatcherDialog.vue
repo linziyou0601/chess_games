@@ -85,7 +85,7 @@
                       {{ userNameMap[gameRoomData[key]] || gameRoomData[key] }}
                     </h5>
                     <div>
-                      {{ key==='user1'? '黑方': '紅方' }}：{{ gameRoomData[`${key}Total`] }}
+                      {{ key==='user1'? '玩家1': '玩家2' }}：{{ gameRoomData[`${key}Total`] }}
                       {{ gameRoomData[`${key}Color`]==='b'? '黑方': gameRoomData[`${key}Color`]==='r'? '紅方': '顏色未定'  }}
                     </div>
                   </div>
