@@ -322,24 +322,6 @@ export default {
 </script>
 
 <style scoped>
-.panel {
-  font-size: 16px;
-  font-weight: 500;
-  border-radius: 10px;
-  background: #ebe5de;
-}
-.msgBox {
-  border-radius: 10px;
-  background: #dad3c9 !important;
-  font-weight: 700;
-  color: #333 !important;
-  border: none;
-}
-.send-btn {
-  background: #3d3a33;
-  border: none;
-}
-
 .rank_card {
   max-height: 300px;
   border-radius: 10px;
@@ -361,22 +343,5 @@ export default {
   background: transparent;
   border: none;
   border-bottom: #d3ccc2 solid 1px;
-}
-
-.self_socket_id {
-  font-weight: 700;
-  color: #bd520a;
-}
-.cursor_pointer {
-  cursor: pointer;
-}
-.login-btn {
-  background: #3d3a33;
-  border: none;
-}
-
-.home-btn {
-  background: #3d3a33;
-  border: none;
 }
 </style>

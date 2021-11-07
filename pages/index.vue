@@ -116,9 +116,39 @@ main {
   border-radius: 10px;
   background: #ebe5de;
 }
+.msgBox {
+  border-radius: 10px;
+  background: #dad3c9 !important;
+  font-weight: 700;
+  color: #333 !important;
+  border: none;
+}
+.send-btn {
+  background: #3d3a33;
+  border: none;
+}
+
 .panel .btn {
   background: #3d3a33;
   border: none;
   border-radius: 10px;
+}
+
+
+.self_socket_id {
+  font-weight: 700;
+  color: #bd520a;
+}
+.cursor_pointer {
+  cursor: pointer;
+}
+.login-btn {
+  background: #3d3a33;
+  border: none;
+}
+
+.home-btn {
+  background: #3d3a33;
+  border: none;
 }
 </style>
