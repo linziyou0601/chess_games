@@ -161,8 +161,8 @@ export default {
     winner() {
       if (this.gameRoomData.winner === -1) return '比賽未結束'
       else if (this.gameRoomData.winner === 0) return '平手'
-      else if (this.gameRoomData.winner === 1) return '黑方'
-      else return '紅方'
+      else if (this.gameRoomData.winner === 1) return '玩家1'
+      else return '玩家2'
     },
     prevChessInfo() {
       const hIndex =  ['1', '2', '3', '4', '5', '6', '7', '8'];
