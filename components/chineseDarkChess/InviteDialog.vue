@@ -26,7 +26,19 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+const namespace = 'chineseDarkChess'
 export default {
+  computed: {
+    ...mapGetters(namespace, ['userNameMap', 'inviteDialog']),
+    show: {
+      get() {
+        return this.inviteDialog.show
+      },
+      set(_) {
+        this.inviteDialogResolved()
+      },
+    },
+  },
   watch: {
     show(newValue, oldValue) {
       if (newValue===true) {
@@ -38,19 +50,8 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters(['userNameMap', 'inviteDialog']),
-    show: {
-      get() {
-        return this.inviteDialog.show
-      },
-      set(_) {
-        this.inviteDialogResolved()
-      },
-    },
-  },
   methods: {
-    ...mapMutations(['inviteDialogResolved']),
+    ...mapMutations(namespace, ['inviteDialogResolved']),
     reply(answer) {
       const params = { inviter: this.inviteDialog.inviter, answer }
       this.$parent.replyInvitation(params, this.inviteDialogResolved);

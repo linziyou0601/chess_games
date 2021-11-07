@@ -26,20 +26,21 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+const namespace = 'reversi'
 export default {
   computed: {
-    ...mapGetters(['leaveRoomDialogShow']),
+    ...mapGetters(namespace, ['leaveRoomDialogShow']),
     show: {
       get() {
         return this.leaveRoomDialogShow
       },
       set(_) {
-        this.hideLeaveRoomDialogShow()
+        this.hideLeaveRoomDialog()
       },
     },
   },
   methods: {
-    ...mapMutations(['hideLeaveRoomDialogShow']),
+    ...mapMutations(namespace, ['hideLeaveRoomDialog']),
   },
 }
 </script>

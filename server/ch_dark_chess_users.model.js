@@ -1,5 +1,16 @@
 const sql = require("./db.js");
 
+const createUserTableString = `
+CREATE TABLE IF NOT EXISTS ch_dark_chess_users (
+  id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  name varchar(255) NOT NULL,
+  password varchar(255) NOT NULL,
+  win int(11) DEFAULT 0,
+  lose int(11) DEFAULT 0,
+  tie int(11) DEFAULT 0
+);`
+sql.query(createUserTableString, (err, res) => { console.log(res) });
+
 // constructor
 const User = function(user) {
   this.name = user.name;
@@ -10,7 +21,7 @@ const User = function(user) {
 };
 
 User.findAll = result => {
-  sql.query("SELECT * FROM users ORDER BY win desc, lose asc", (err, res) => {
+  sql.query("SELECT * FROM ch_dark_chess_users ORDER BY win desc, lose asc", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -22,7 +33,7 @@ User.findAll = result => {
 };
 
 User.findByName = (userName, result) => {
-  sql.query(`SELECT * FROM users WHERE name = ?`, [userName], (err, res) => {
+  sql.query(`SELECT * FROM ch_dark_chess_users WHERE name = ?`, [userName], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -39,7 +50,7 @@ User.findByName = (userName, result) => {
 };
 
 User.create = (newUser, result) => {
-  sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
+  sql.query("INSERT INTO ch_dark_chess_users SET ?", newUser, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -52,7 +63,7 @@ User.create = (newUser, result) => {
 
 User.updateGameResult = (gameResult, result) => {
   sql.query(
-    "UPDATE users SET win = win + ?, lose = lose + ?, tie = tie + ? WHERE name = ?", 
+    "UPDATE ch_dark_chess_users SET win = win + ?, lose = lose + ?, tie = tie + ? WHERE name = ?", 
     [gameResult.win, gameResult.lose, gameResult.tie, gameResult.name],
     (err, res) => {
       if (err) {

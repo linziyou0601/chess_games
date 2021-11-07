@@ -26,9 +26,10 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+const namespace = 'reversi'
 export default {
   computed: {
-    ...mapGetters(['gameEndDialog']),
+    ...mapGetters(namespace, ['gameEndDialog']),
     show: {
       get() {
         return this.gameEndDialog.show
@@ -50,7 +51,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['gameEndDialogResolved']),
+    ...mapMutations(namespace, ['gameEndDialogResolved']),
   },
 }
 </script>

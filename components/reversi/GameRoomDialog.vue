@@ -101,20 +101,10 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+const namespace = 'reversi'
 export default {
-  watch: {
-    show(newValue, oldValue) {
-      if (newValue===true) {
-        const audio = new Audio('startGame.wav')
-        const startPlayPromise = audio.play()
-        if (startPlayPromise !== undefined) {
-          startPlayPromise.catch(error => { console.log(error.name) })
-        }
-      }
-    }
-  },
   computed: {
-    ...mapGetters(['userNameMap', 'gameRoomDialogShow', 'gameRoomData']),
+    ...mapGetters(namespace, ['userNameMap', 'gameRoomDialogShow', 'gameRoomData']),
     show: {
       get() {
         return this.gameRoomDialogShow
@@ -140,8 +130,19 @@ export default {
       return `${vIndex[this.gameRoomData.prevI]}${hIndex[this.gameRoomData.prevJ]}`
     }
   },
+  watch: {
+    show(newValue, oldValue) {
+      if (newValue===true) {
+        const audio = new Audio('startGame.wav')
+        const startPlayPromise = audio.play()
+        if (startPlayPromise !== undefined) {
+          startPlayPromise.catch(error => { console.log(error.name) })
+        }
+      }
+    }
+  },
   methods: {
-    ...mapMutations(['gameRoomDialogResolved']),
+    ...mapMutations(namespace, ['gameRoomDialogResolved']),
     putChess(i,j) {
       if (this.isMyTurn && this.gameRoomData.available[i][j]===1) {
         const params = { i, j, roomId: this.gameRoomData.id }

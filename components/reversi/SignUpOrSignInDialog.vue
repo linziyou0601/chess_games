@@ -14,10 +14,10 @@
         </div>
         <h4 class="mt-2 mb-3 fw-900">登入</h4>
         <div class="mt-2 mb-3 mx-4">
-          <b-input type="username" name="username" v-model="inputName" placeholder="帳號" />
+          <b-input v-model="inputName" type="username" name="username" placeholder="帳號" />
         </div>
         <div class="mt-2 mb-3 mx-4">
-          <b-input type="password" name="password" v-model="inputPassword" placeholder="密碼" />
+          <b-input v-model="inputPassword" type="password" name="password" placeholder="密碼" />
         </div>
         <b-button variant="dark" class="mt-3" @click="ok()">註冊或登入</b-button>
         </b-col>
@@ -28,6 +28,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+const namespace = 'reversi'
 export default {data() {
     return {
       inputName: '',
@@ -35,7 +36,7 @@ export default {data() {
     }
   },
   computed: {
-    ...mapGetters(['signUpOrSignInDialog']),
+    ...mapGetters(namespace, ['signUpOrSignInDialog']),
     show: {
       get() {
         return this.signUpOrSignInDialog.show
@@ -46,7 +47,7 @@ export default {data() {
     },
   },
   methods: {
-    ...mapMutations(['hideSignUpOrSignInDialog']),
+    ...mapMutations(namespace, ['hideSignUpOrSignInDialog']),
     ok() {
       this.$parent.signUpOrSignIn(this.inputName, this.inputPassword, this.hideSignUpOrSignInDialog)
     },

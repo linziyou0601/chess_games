@@ -1,20 +1,20 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: '黑白棋 | reversi',
+    title: '棋類遊戲 | Chess Game',
     htmlAttrs: {
       lang: 'zh-tw'
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '黑白棋對戰小遊戲' },
+      { hid: 'description', name: 'description', content: '棋類對戰小遊戲' },
       { name: 'format-detection', content: 'telephone=no' },
       { hid: 'og:type', name: 'og:type', content: 'website' },
-      { hid: 'og:title', name: 'og:title', content: '黑白棋 | reversi' },
-      { hid: 'og:title', name: 'og:title', content: '黑白棋對戰小遊戲' },
-      { hid: 'og:site_name', name: 'og:site_name', content: '黑白棋 | reversi' },
-      { hid: 'keywords', name: 'keywords', content: '黑白棋,reversi,遊戲' },
+      { hid: 'og:title', name: 'og:title', content: '棋類遊戲 | Chess Game' },
+      { hid: 'og:title', name: 'og:title', content: '棋類對戰小遊戲' },
+      { hid: 'og:site_name', name: 'og:site_name', content: '棋類遊戲 | Chess Game' },
+      { hid: 'keywords', name: 'keywords', content: '棋類遊戲,下棋,黑白棋,象棋,暗棋,reversi,chinese dark chess,chess,遊戲' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -79,25 +79,68 @@ export default {
       // url: 'http://localhost:3000',
       default: true,
       vuex: {
-        mutations: [{
-          updateUesrs: 'UPDATE_USERS',
-        }, {
-          updateUserNameMap: 'UPDATE_USER_NAMEMAP'
+        actions: [
+        // REVERSI  
+        {
+          'reversi/repliedInvitation': 'reversi/REPLIED_INVITATION',
+        },
+        // CHINESE DARK CHESS
+        {
+          'chineseDarkChess/repliedInvitation': 'chineseDarkChess/REPLIED_INVITATION',
         },{
-          receiveMessage: 'RECEIVE_MESSAGE',
+          'chineseDarkChess/repliedAskTie': 'chineseDarkChess/REPLIED_ASK_TIE',
+        }],
+        mutations: [
+        // REVERSI
+        {
+          'reversi/updateRooms': 'reversi/UPDATE_ROOMS',
         }, {
-          receiveInvitation: 'RECEIVE_INVITATION',
+          'reversi/updateUesrs': 'reversi/UPDATE_USERS',
         }, {
-          replyInvitation: 'REPLY_INVITATION',
+          'reversi/updateUserNameMap': 'reversi/UPDATE_USER_NAMEMAP'
+        },{
+          'reversi/receiveMessage': 'reversi/RECEIVE_MESSAGE',
         }, {
-          intoTheRoom: 'INTO_THE_ROOM'
+          'reversi/receiveInvitation': 'reversi/RECEIVE_INVITATION',
         }, {
-          nextTurn: 'NEXT_TURN'
+          'reversi/intoTheRoom': 'reversi/INTO_THE_ROOM'
         }, {
-          leaveTheRoom: 'LEAVE_THE_ROOM'
+          'reversi/nextTurn': 'reversi/NEXT_TURN'
         }, {
-          gameEnd: 'GAME_END'
-        }]
+          'reversi/leaveTheRoom': 'reversi/LEAVE_THE_ROOM'
+        }, {
+          'reversi/gameEnd': 'reversi/GAME_END'
+        }, {
+          'reversi/updateWatchingData': 'reversi/UPDATE_WATCHING_DATA'
+        }, {
+          'reversi/receiveRoomMessage': 'reversi/RECEIVE_ROOM_MESSAGE',
+        },
+        // CHINESE DARK CHESS
+        {
+          'chineseDarkChess/updateRooms': 'chineseDarkChess/UPDATE_ROOMS',
+        }, {
+          'chineseDarkChess/updateUesrs': 'chineseDarkChess/UPDATE_USERS',
+        }, {
+          'chineseDarkChess/updateUserNameMap': 'chineseDarkChess/UPDATE_USER_NAMEMAP'
+        },{
+          'chineseDarkChess/receiveMessage': 'chineseDarkChess/RECEIVE_MESSAGE',
+        }, {
+          'chineseDarkChess/receiveInvitation': 'chineseDarkChess/RECEIVE_INVITATION',
+        }, {
+          'chineseDarkChess/receiveAskTie': 'chineseDarkChess/RECEIVE_ASK_TIE',
+        }, {
+          'chineseDarkChess/intoTheRoom': 'chineseDarkChess/INTO_THE_ROOM'
+        }, {
+          'chineseDarkChess/nextTurn': 'chineseDarkChess/NEXT_TURN'
+        }, {
+          'chineseDarkChess/leaveTheRoom': 'chineseDarkChess/LEAVE_THE_ROOM'
+        }, {
+          'chineseDarkChess/gameEnd': 'chineseDarkChess/GAME_END'
+        }, {
+          'chineseDarkChess/updateWatchingData': 'chineseDarkChess/UPDATE_WATCHING_DATA'
+        }, {
+          'chineseDarkChess/receiveRoomMessage': 'chineseDarkChess/RECEIVE_ROOM_MESSAGE',
+        }],
       }
     }]
   },
