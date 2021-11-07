@@ -9,12 +9,16 @@
     <main class="container-fluid mb-3 py-3 py-md-5 px-3 px-sm-5">
       <b-row align-h="center">
         <b-col cols="12" md="8" lg="6" class="panel px-5 py-3">
-          <b-button class="fw-700 py-4 my-4" size="lg" block :to="'reversi'">
-            黑白棋 | Reversi
-          </b-button>
-          <b-button class="fw-700 py-4 my-4" size="lg" block :to="'chineseDarkChess'">
-            中國暗棋 | Chinese Dark Chess
-          </b-button>
+          <nuxt-link v-slot="{ navigate }" to="reversi" custom>
+            <b-button class="fw-700 py-4 my-4" size="lg" block @click="navigate">
+              黑白棋 | Reversi
+            </b-button>
+          </nuxt-link>
+          <nuxt-link v-slot="{ navigate }" to="chineseDarkChess" custom>
+            <b-button class="fw-700 py-4 my-4" size="lg" block @click="navigate">
+              中國暗棋 | Chinese Dark Chess
+            </b-button>
+          </nuxt-link>
         </b-col>
       </b-row>
     </main>

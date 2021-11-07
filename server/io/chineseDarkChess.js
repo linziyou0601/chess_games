@@ -224,6 +224,8 @@ export default function (socket, io) {
     },
     // 下棋
     putChess(data) {
+      const from = data.from
+      const to = data.to
       const gameRoom = gameRooms[data.roomId]
       
       let winner = -1
@@ -235,16 +237,18 @@ export default function (socket, io) {
       let user2Color = gameRoom.user2Color
       let emptyMove = false
       let emptyMoving = gameRoom.emptyMoving
-      let nextStatusBoard = JSON.parse(JSON.stringify(gameRoom.statusBoard))
-      let nextChessBoard = JSON.parse(JSON.stringify(gameRoom.chessBoard))
+      let statusBoard = JSON.parse(JSON.stringify(gameRoom.statusBoard))
+      let chessBoard = JSON.parse(JSON.stringify(gameRoom.chessBoard))
       let user1Deaths = JSON.parse(JSON.stringify(gameRoom.user1Deaths))
       let user2Deaths = JSON.parse(JSON.stringify(gameRoom.user2Deaths))
 
-      const toBR = nextChessBoard[data.to.i][data.to.j].charAt(0)
+      const fromChess = from===null? null: chessBoard[from.i][from.j]
+      const toChess = chessBoard[to.i][to.j]
+      const toBR = toChess.charAt(0)
 
       // 若from不存在，且to是關著的，打開它
-      if (data.from===null) {
-        nextStatusBoard[data.to.i][data.to.j] = 1
+      if (from===null) {
+        statusBoard[to.i][to.j] = 1
         if (user1Color==='' && user2Color==='') {
           user1Color = toBR
           user2Color = (user1Color==='b'? 'r': 'b')
@@ -253,43 +257,42 @@ export default function (socket, io) {
       // 檢查移動合不合法
       else {
         let validMove = false
-        const fromChess = nextChessBoard[data.from.i][data.from.j]
-        const toChess = nextChessBoard[data.to.i][data.to.j]
         // 非炮
-        if (nextChessBoard[data.from.i][data.from.j].charAt(1)!=='6') {
-          // 只移動 上、下、左、右 其中一格，且該格為空格或比該格大
-          if (Math.abs(data.to.i - data.from.i) + Math.abs(data.to.j - data.from.j) === 1
-              && (nextStatusBoard[data.to.i][data.to.j] === 2 || isMovable(fromChess, toChess))) {
+        if (chessBoard[from.i][from.j].charAt(1)!=='6') {
+          // 只移動 上、下、左、右 其中一格，且 (該格為空格 或 比該格大)
+          if (Math.abs(to.i - from.i) + Math.abs(to.j - from.j) === 1
+              && (statusBoard[to.i][to.j] === 2 || isMovable(fromChess, toChess))) {
             validMove = true
-            emptyMove = (nextStatusBoard[data.to.i][data.to.j] === 2)
+            emptyMove = (statusBoard[to.i][to.j] === 2)
           }
         }
         // 炮
         else {
-          // 只移動 上、下、左、右 其中一格且該格為空格
-          if (Math.abs(data.to.i - data.from.i) + Math.abs(data.to.j - data.from.j) === 1
-              && nextStatusBoard[data.to.i][data.to.j] === 2) {
+          // 只移動 上、下、左、右 其中一格，且該格為空格
+          if (Math.abs(to.i - from.i) + Math.abs(to.j - from.j) === 1
+              && statusBoard[to.i][to.j] === 2) {
             validMove = true
             emptyMove = true
           }
-          // 只移動 橫且中間只跳過剛好一顆棋
-          else if (Math.abs(data.to.i - data.from.i) === 0 || Math.abs(data.to.j - data.from.j) === 0) {
+          // 只移動 橫且中間只跳過剛好一顆棋，且該格為打開的棋
+          else if ((Math.abs(to.i - from.i) === 0 || Math.abs(to.j - from.j) === 0)
+              && statusBoard[to.i][to.j] === 1) {
             let count = 0
-            let tempI = data.from.i
-            let tempJ = data.from.j
+            let tempI = from.i
+            let tempJ = from.j
             const direction = [0, 0]
-            if (data.to.i < data.from.i) direction[0] = -1
-            if (data.to.i > data.from.i) direction[0] = 1
-            if (data.to.j < data.from.j) direction[1] = -1
-            if (data.to.j > data.from.j) direction[1] = 1
+            if (to.i < from.i) direction[0] = -1
+            if (to.i > from.i) direction[0] = 1
+            if (to.j < from.j) direction[1] = -1
+            if (to.j > from.j) direction[1] = 1
             // 當指到的棋不超出範圍，且還沒走到移動至的位置，計算數目
             do {
               tempI += direction[0]
               tempJ += direction[1]
-              if ((nextStatusBoard[tempI] || [])[tempJ]!==undefined && nextStatusBoard[tempI][tempJ]!==2 
-                  && (tempI!==data.to.i || tempJ!==data.to.j)) count++
-            } while((nextStatusBoard[tempI] || [])[tempJ]!==undefined && (tempI!==data.to.i || tempJ!==data.to.j))
-            console.log(`count: ${count}`)
+              if ((statusBoard[tempI] || [])[tempJ]!==undefined && statusBoard[tempI][tempJ]!==2 
+                  && (tempI!==to.i || tempJ!==to.j)) count++
+            } while((statusBoard[tempI] || [])[tempJ]!==undefined && (tempI!==to.i || tempJ!==to.j))
+
             if (count===1) {
               validMove = true
               emptyMove = false
@@ -299,15 +302,15 @@ export default function (socket, io) {
 
         if (validMove) {
           if (!emptyMove) {
-            if (toBR===user1Color) user1Deaths.push(nextChessBoard[data.to.i][data.to.j])
-            else user2Deaths.push(nextChessBoard[data.to.i][data.to.j])
+            if (toBR===user1Color) user1Deaths.push(chessBoard[to.i][to.j])
+            else if (toBR===user2Color) user2Deaths.push(chessBoard[to.i][to.j])
           }
           // 移動棋子
-          nextChessBoard[data.to.i][data.to.j] = nextChessBoard[data.from.i][data.from.j]
-          nextChessBoard[data.from.i][data.from.j] = ''
+          chessBoard[to.i][to.j] = chessBoard[from.i][from.j]
+          chessBoard[from.i][from.j] = ''
           // 移動棋子開關狀態
-          nextStatusBoard[data.to.i][data.to.j] = 1
-          nextStatusBoard[data.from.i][data.from.j] = 2
+          statusBoard[to.i][to.j] = 1
+          statusBoard[from.i][from.j] = 2
         } else {
           return { status: false }
         }
@@ -332,11 +335,11 @@ export default function (socket, io) {
         user1Color,
         user2Color,
         status: gameEnd? '比賽結束': '比賽中',
-        statusBoard: nextStatusBoard,
-        chessBoard: nextChessBoard,
+        statusBoard,
+        chessBoard,
         emptyMoving,
-        prevI: data.to.i,
-        prevJ: data.to.j,
+        prevI: to.i,
+        prevJ: to.j,
         user1Deaths,
         user2Deaths,
         turn: nextTurn,

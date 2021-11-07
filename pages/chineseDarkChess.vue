@@ -123,7 +123,7 @@
               <fa :icon="['fab', 'github']" /> GitHub
             </a>
             <br/>
-            <b-button class="home-btn text-decoration-none mt-2" :to="'/'">回首頁</b-button>
+            <b-button class="home-btn mt-2" to="/">回首頁</b-button>
           </div>
         </b-col>
       </b-row>
