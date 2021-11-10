@@ -1,12 +1,12 @@
-# reversi
+# 簡單的棋類對戰伺服器
 
-簡單的棋類對戰伺服器
-
-- 使用NuxtJS作為框架
-- 使用Socket.io進行連線管理
+- 黑白棋、暗棋對戰遊戲
+- 使用NuxtJS進行頁面撰寫
+- 使用Socket.io進行Client連線管理
 - 使用mariadb儲存帳號及對戰資料
+- 使用Express架設資料庫存取API
 
-# 說明
+## 說明
 
 - 請至 db.config.js 更改DB連線設定
 - 請至 .env 更改BASE_URL設定
